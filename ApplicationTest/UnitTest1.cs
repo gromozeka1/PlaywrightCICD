@@ -1,3 +1,4 @@
+using ApplicationTest.Pages;
 using Microsoft.Playwright;
 using TestFramework.Config;
 using TestFramework.Driver;
@@ -33,6 +34,27 @@ namespace ApplicationTest
             await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
 
             await page.GetByRole(AriaRole.Link, new() { Name = "Employee List" }).ClickAsync();
+        }
+
+        [Fact]
+        public async Task Test2()
+        {
+            var page = await _playwrightDriver.Page;
+
+            await page.GotoAsync("http://localhost:8000/");
+
+            ProductListPage productListPage = new ProductListPage(page);
+            ProductPage productPage = new ProductPage(page);
+            
+            await productListPage.CreateProductAsync();
+
+            await productPage.CreateProduct("Speaker", "Speaker description", 2000, "2");
+            await productPage.ClickCreate();
+
+            await productListPage.ClickProductFromList("Speaker");
+
+            var element = productListPage.IsProductCreated("Speaker");
+            await Assertions.Expect(element).ToBeVisibleAsync();
         }
     }
 }
