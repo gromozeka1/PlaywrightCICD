@@ -1,4 +1,5 @@
-﻿using Microsoft.Playwright;
+﻿using ApplicationTest.Models;
+using Microsoft.Playwright;
 
 namespace ApplicationTest.Pages
 {
@@ -18,12 +19,12 @@ namespace ApplicationTest.Pages
 
         private ILocator LnkCreate => _page.GetByRole(AriaRole.Button, new () { Name = "Create" });
 
-        public async Task CreateProduct(string name, string description, decimal price, string productType)
+        public async Task CreateProduct(Product product)
         {
-            await TxtName.FillAsync(name);
-            await TxtDescription.FillAsync(description);
-            await TxtPrice.FillAsync(price.ToString());
-            await SelectProductType.SelectOptionAsync(productType);
+            await TxtName.FillAsync(product.Name);
+            await TxtDescription.FillAsync(product.Description);
+            await TxtPrice.FillAsync(product.Price.ToString());
+            await SelectProductType.SelectOptionAsync(product.ProductType.ToString());
         }
 
         public async Task ClickCreate()
