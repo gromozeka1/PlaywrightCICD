@@ -8,20 +8,13 @@ namespace ApplicationTest
     {
         private readonly PlaywrightDriver _playwrightDriver;
         private readonly PlaywrightDriverInitializer _playwrightDriverInitializer;
+        private readonly TestSettings _testSettings;
 
         public UnitTest1(PlaywrightDriverInitializer playwrightDriverInitializer)
         {
-            var testSettings = new TestSettings
-            {
-                DriverType = DriverType.Chromium,
-                Headless = false,
-                Timeout = 150000,
-                SlowMo = 2000,
-                ApplicationUrl = "http://eaapp.somee.com/",
-            };
-
+            _testSettings = ConfigReader.ReadConfig();
             _playwrightDriverInitializer = playwrightDriverInitializer;
-            _playwrightDriver = new PlaywrightDriver(testSettings, _playwrightDriverInitializer);
+            _playwrightDriver = new PlaywrightDriver(_testSettings, _playwrightDriverInitializer);
         }
 
         [Fact]
@@ -29,7 +22,7 @@ namespace ApplicationTest
         {
             var page = await _playwrightDriver.Page;
 
-            await page.GotoAsync("http://eaapp.somee.com/");
+            await page.GotoAsync(_testSettings.ApplicationUrl);
 
             await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
 
