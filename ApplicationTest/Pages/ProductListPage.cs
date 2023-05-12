@@ -1,17 +1,23 @@
 ﻿using Microsoft.Playwright;
+using TestFramework.Driver;
 
 namespace ApplicationTest.Pages
 {
-    public class ProductListPage
+    public interface IProductListPage
+    {
+        Task ClickProductFromList(string name);
+        Task CreateProductAsync();
+        ILocator IsProductCreated(string product);
+    }
+
+    public class ProductListPage : IProductListPage
     {
         private readonly IPage _page;
 
-        public ProductListPage(IPage page)
-        {
-            _page = page;
-        }
+        public ProductListPage(IPlaywrightDriver playwrightDriver) 
+            => _page = playwrightDriver.Page.Result;
 
-        private ILocator LnkProductList => _page.GetByRole(AriaRole.Link, new () { Name = "Product" });
+        private ILocator LnkProductList => _page.GetByRole(AriaRole.Link, new() { Name = "Product" });
 
         private ILocator LnkCreate => _page.GetByRole(AriaRole.Link, new() { Name = "Create" });
 

@@ -1,23 +1,28 @@
 ﻿using ApplicationTest.Models;
 using Microsoft.Playwright;
+using TestFramework.Driver;
 
 namespace ApplicationTest.Pages
 {
-    public class ProductPage
+    public interface IProductPage
+    {
+        Task ClickCreate();
+        Task CreateProduct(Product product);
+    }
+
+    public class ProductPage : IProductPage
     {
         private readonly IPage _page;
 
-        public ProductPage(IPage page)
-        {
-            _page = page;
-        }
+        public ProductPage(IPlaywrightDriver playwrightDriver)
+            => _page = playwrightDriver.Page.Result;
 
         private ILocator TxtName => _page.GetByLabel("Name");
         private ILocator TxtDescription => _page.GetByLabel("Description");
         private ILocator TxtPrice => _page.Locator("#Price");
-        private ILocator SelectProductType => _page.GetByRole(AriaRole.Combobox, new () { Name = "ProductType" });
+        private ILocator SelectProductType => _page.GetByRole(AriaRole.Combobox, new() { Name = "ProductType" });
 
-        private ILocator LnkCreate => _page.GetByRole(AriaRole.Button, new () { Name = "Create" });
+        private ILocator LnkCreate => _page.GetByRole(AriaRole.Button, new() { Name = "Create" });
 
         public async Task CreateProduct(Product product)
         {

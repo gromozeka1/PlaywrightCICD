@@ -3,7 +3,7 @@ using TestFramework.Config;
 
 namespace TestFramework.Driver
 {
-    public class PlaywrightDriver : IDisposable
+    public class PlaywrightDriver : IDisposable, IPlaywrightDriver
     {
         private readonly AsyncLazy<IBrowser> _browser;
         private readonly AsyncLazy<IBrowserContext> _browserContext;
