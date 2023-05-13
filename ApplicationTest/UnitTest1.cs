@@ -7,6 +7,7 @@ using TestFramework.Driver;
 
 namespace ApplicationTest
 {
+    [Collection("Sequential")]
     public class UnitTest1
     {
         private readonly IPlaywrightDriver _playwrightDriver;
@@ -22,22 +23,40 @@ namespace ApplicationTest
             _productPage = productPage;
         }
 
-        [Theory, AutoData]
-        public async Task TestWithAutoFixtureData(Product product)
+        [Fact]
+        public async Task Test1()
         {
             var page = await _playwrightDriver.Page;
 
-            await page.GotoAsync("http://localhost:8000/");
+            await page.GotoAsync("http://eaapp.somee.com");
 
-            await _productListPage.CreateProductAsync();
+            await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
 
-            await _productPage.CreateProduct(product);
-            await _productPage.ClickCreate();
+            await page.GetByLabel("UserName").FillAsync("admin");
 
-            await _productListPage.ClickProductFromList(product.Name);
+            await page.GetByLabel("Password").FillAsync("password");
 
-            var element = _productListPage.IsProductCreated(product.Name);
-            await Assertions.Expect(element).ToBeVisibleAsync();
+            await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+
+            await page.GetByRole(AriaRole.Link, new() { Name = "Employee List" }).ClickAsync();
         }
+
+        //[Theory, AutoData]
+        //public async Task TestWithAutoFixtureData(Product product)
+        //{
+        //    var page = await _playwrightDriver.Page;
+
+        //    await page.GotoAsync("http://localhost:8000/");
+
+        //    await _productListPage.CreateProductAsync();
+
+        //    await _productPage.CreateProduct(product);
+        //    await _productPage.ClickCreate();
+
+        //    await _productListPage.ClickProductFromList(product.Name);
+
+        //    var element = _productListPage.IsProductCreated(product.Name);
+        //    await Assertions.Expect(element).ToBeVisibleAsync();
+        //}
     }
 }
