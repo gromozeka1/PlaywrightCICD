@@ -1,22 +1,26 @@
-﻿using ApplicationTest.Fixture;
-using ApplicationTest.Pages;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SolidToken.SpecFlow.DependencyInjection;
+using SpecflowTests.Pages;
 using TestFramework.Config;
 using TestFramework.Driver;
 
-namespace ApplicationTest
+namespace SpecflowTests
 {
     public class Startup
     {
-        public void ConfigureServices(IServiceCollection services)
+        [ScenarioDependencies]
+        public static IServiceCollection CreateServices()
         {
+            var services = new ServiceCollection();
+
             services
                 .AddSingleton(ConfigReader.ReadConfig())
                 .AddScoped<IPlaywrightDriver, PlaywrightDriver>()
                 .AddScoped<IPlaywrightDriverInitializer, PlaywrightDriverInitializer>()
                 .AddScoped<IProductListPage, ProductListPage>()
-                .AddScoped<IProductPage, ProductPage>()
-                .AddScoped<ITestFixtureBase, TestFixtureBase>();
+                .AddScoped<IProductPage, ProductPage>();
+
+            return services;
         }
     }
 }
