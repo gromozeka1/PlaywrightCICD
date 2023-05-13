@@ -6,7 +6,6 @@ using Microsoft.Playwright;
 
 namespace ApplicationTest
 {
-    [Collection("Sequential")]
     public class UnitTest2
     {
         private readonly ITestFixtureBase _testFixtureBase;
@@ -20,20 +19,20 @@ namespace ApplicationTest
             _productPage = productPage;
         }
 
-        //[Theory, AutoData]
-        //public async Task TestWithAutoFixtureData(Product product)
-        //{
-        //    await _testFixtureBase.NavigateToUrl();
+        [Theory, AutoData]
+        public async Task TestWithAutoFixtureData(Product product)
+        {
+            await _testFixtureBase.NavigateToUrl();
 
-        //    await _productListPage.CreateProductAsync();
+            await _productListPage.CreateProductAsync();
 
-        //    await _productPage.CreateProduct(product);
-        //    await _productPage.ClickCreate();
+            await _productPage.CreateProduct(product);
+            await _productPage.ClickCreate();
 
-        //    await _productListPage.ClickProductFromList(product.Name);
+            await _productListPage.ClickProductFromList(product.Name);
 
-        //    var element = _productListPage.IsProductCreated(product.Name);
-        //    await Assertions.Expect(element).ToBeVisibleAsync();
-        //}
+            var element = _productListPage.IsProductCreated(product.Name);
+            await Assertions.Expect(element).ToBeVisibleAsync();
+        }
     }
 }
