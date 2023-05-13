@@ -29,4 +29,5 @@ jobs:
     - name: Ensure browsers are installed
       run: pwsh ${{ github.workspace }}/ApplicationTest/bin/Debug/net7.0/playwright.ps1 install --with-deps
     - name: Test
+      working-directory: ${{ github.workspace }}/ApplicationTest
       run: dotnet test --no-build --verbosity normal
