@@ -19,7 +19,7 @@ namespace ApplicationTest
             _productPage = productPage;
         }
 
-        [Theory, AutoData]
+        [Theory(Skip = "Skipping local test"), AutoData]
         public async Task TestWithAutoFixtureData(Product product)
         {
             await _testFixtureBase.NavigateToUrl();

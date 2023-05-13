@@ -22,25 +22,25 @@ namespace ApplicationTest
             _productPage = productPage;
         }
 
-        //[Fact]
-        //public async Task Test1()
-        //{
-        //    var page = await _playwrightDriver.Page;
+        [Fact]
+        public async Task Test1()
+        {
+            var page = await _playwrightDriver.Page;
 
-        //    await page.GotoAsync("http://eaapp.somee.com");
+            await page.GotoAsync("http://eaapp.somee.com");
 
-        //    await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+            await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
 
-        //    await page.GetByLabel("UserName").FillAsync("admin");
+            await page.GetByLabel("UserName").FillAsync("admin");
 
-        //    await page.GetByLabel("Password").FillAsync("password");
+            await page.GetByLabel("Password").FillAsync("password");
 
-        //    await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+            await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
 
-        //    await page.GetByRole(AriaRole.Link, new() { Name = "Employee List" }).ClickAsync();
-        //}
+            await page.GetByRole(AriaRole.Link, new() { Name = "Employee List" }).ClickAsync();
+        }
 
-        [Theory, AutoData]
+        [Theory(Skip = "Skipping local test"), AutoData]
         public async Task TestWithAutoFixtureData(Product product)
         {
             var page = await _playwrightDriver.Page;
