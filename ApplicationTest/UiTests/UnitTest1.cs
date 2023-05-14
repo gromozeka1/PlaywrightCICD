@@ -5,7 +5,7 @@ using Microsoft.Playwright;
 using TestFramework.Config;
 using TestFramework.Driver;
 
-namespace ApplicationTest
+namespace ApplicationTest.UiTests
 {
     public class UnitTest1
     {

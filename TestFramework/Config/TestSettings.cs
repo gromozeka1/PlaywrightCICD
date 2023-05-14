@@ -7,6 +7,8 @@ namespace TestFramework.Config
         public DriverType DriverType { get; set; }
 
         public string ApplicationUrl { get; set; }
+        
+        public string ApplicationApiUrl { get; set; }
 
         public string[]? Args { get; set; }
 

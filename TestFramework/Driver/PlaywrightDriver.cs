@@ -8,6 +8,7 @@ namespace TestFramework.Driver
         private readonly AsyncLazy<IBrowser> _browser;
         private readonly AsyncLazy<IBrowserContext> _browserContext;
         private readonly AsyncLazy<IPage> _page;
+        private readonly AsyncLazy<IAPIRequestContext> _apiRequestContext;
         private readonly TestSettings _testSettings;
         private readonly IPlaywrightDriverInitializer _playwrightDriverInitializer;
 
@@ -21,13 +22,17 @@ namespace TestFramework.Driver
             _browser = new AsyncLazy<IBrowser>(InitializePlaywright);
             _browserContext = new AsyncLazy<IBrowserContext>(CreateBrowserContext);
             _page = new AsyncLazy<IPage>(CreatePageAsync);
+
+            _apiRequestContext = new AsyncLazy<IAPIRequestContext>(CreateApiContext);
         }
 
         public Task<IPage> Page => _page.Value;
 
         public Task<IBrowser> Browser => _browser.Value;
 
-        public Task BrowserContext => _browserContext.Value;
+        public Task<IBrowserContext> BrowserContext => _browserContext.Value;
+
+        public Task<IAPIRequestContext> ApiRequestContext => _apiRequestContext.Value;
 
         private async Task<IBrowser> InitializePlaywright()
         {
@@ -39,6 +44,18 @@ namespace TestFramework.Driver
                 DriverType.Edge => await _playwrightDriverInitializer.GetWebKitDriverAsync(_testSettings),
                 _ => await _playwrightDriverInitializer.GetChromiumDriverAsync(_testSettings),
             };
+        }
+
+        private async Task<IAPIRequestContext> CreateApiContext()
+        {
+            var playwright = await Playwright.CreateAsync();
+
+            return await playwright.APIRequest.NewContextAsync(new APIRequestNewContextOptions
+            {
+                BaseURL = _testSettings.ApplicationApiUrl,
+                // can be moved to settings
+                IgnoreHTTPSErrors = true,
+            });
         }
 
         private async Task<IPage> CreatePageAsync()
@@ -64,6 +81,14 @@ namespace TestFramework.Driver
                 {
                     await (await Browser).CloseAsync();
                     await (await Browser).DisposeAsync();
+                });
+            }
+
+            if (_apiRequestContext.IsValueCreated)
+            {
+                Task.Run(async () =>
+                {
+                    await (await ApiRequestContext).DisposeAsync();
                 });
             }
 

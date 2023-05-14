@@ -8,6 +8,7 @@ namespace ProductAPI.Repository
     {
         Product AddProduct(Product product);
         void DeleteProduct(int id);
+        void DeleteProductByName(string productName);
         List<Product> GetAllProducts();
         Product GetProductById(int id);
         Product UpdateProduct(Product product);
@@ -53,5 +54,11 @@ namespace ProductAPI.Repository
             _context.SaveChanges();
         }
 
+        public void DeleteProductByName(string productName)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Name.ToLower() == productName.ToLower());
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+        }
     }
 }

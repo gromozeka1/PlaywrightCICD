@@ -75,6 +75,15 @@ namespace SpecflowTests.Features
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 5
+#line hidden
+#line 6
+ testRunner.Given("I ensure \"Headphones\" data is cleaned up if already exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         void System.IDisposable.Dispose()
         {
             this.TestTearDown();
@@ -88,7 +97,7 @@ namespace SpecflowTests.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new product and verify the details", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 5
+#line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -98,7 +107,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 6
+#line 5
+this.FeatureBackground();
+#line hidden
+#line 9
  testRunner.Given("I click the Product menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -111,13 +123,13 @@ this.ScenarioInitialize(scenarioInfo);
                             "Noise cancellation",
                             "300",
                             "PERIPHARALS"});
-#line 7
+#line 10
  testRunner.And("I create a product with following details", ((string)(null)), table1, "And ");
 #line hidden
-#line 10
+#line 13
  testRunner.When("I click the Details link of the newly created product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 11
+#line 14
  testRunner.Then("I see all the product details are created as expected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
