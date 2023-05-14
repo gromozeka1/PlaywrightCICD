@@ -28,6 +28,13 @@ jobs:
       uses: powershell-devops/powershell-devops@v0.2.0
     - name: Ensure browsers are installed
       run: pwsh ${{ github.workspace }}/ApplicationTest/bin/Debug/net7.0/playwright.ps1 install --with-deps
+    - name: Run app in docker
+      uses: isbang/compose-action@v1.4.1
+      with:
+        compose-file: ${{ github.workspace }}/docker-compose.yml
+        services: |
+          ea_api
+          ea_webapp
     - name: Test
       working-directory: ${{ github.workspace }}/ApplicationTest
       run: dotnet test --no-build --verbosity normal
