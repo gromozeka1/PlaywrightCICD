@@ -40,7 +40,7 @@ namespace ApplicationTest
             await page.GetByRole(AriaRole.Link, new() { Name = "Employee List" }).ClickAsync();
         }
 
-        [Theory(Skip = "Skipping local test"), AutoData]
+        [Theory, AutoData]
         public async Task TestWithAutoFixtureData(Product product)
         {
             var page = await _playwrightDriver.Page;
